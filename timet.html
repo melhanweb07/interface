@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Time Table Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #f0f4f8, #d9e2ec);
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease-in-out;
+      display: none;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #007bff;
+    }
+    .input-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s;
+    }
+    input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+    button {
+      grid-column: span 2;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background: #007bff;
+      color: white;
+      font-weight: bold;
+    }
+    td {
+      background-color: #f9f9f9;
+    }
+    tr:nth-child(even) td {
+      background-color: #eef6ff;
+    }
+    .summary {
+      margin-top: 30px;
+      padding: 20px;
+      background: #eaf4fc;
+      border: 2px solid #90caf9;
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+      transition: all 0.3s ease-in-out;
+    }
+    .summary h3 {
+      color: #0d47a1;
+      margin-bottom: 15px;
+      font-size: 20px;
+      text-align: center;
+      border-bottom: 1px solid #bbdefb;
+      padding-bottom: 10px;
+    }
+    .summary ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .summary li {
+      background: #ffffff;
+      border: 1px solid #90caf9;
+      border-radius: 10px;
+      padding: 10px 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease-in-out;
+    }
+    .summary li:hover {
+      transform: scale(1.05);
+    }
+    #login {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    #login h2 {
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+    #login input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div id="login">
+    <h2>Login</h2>
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="checkLogin()">Login</button>
+  </div>
+
+  <div class="container" id="main-container">
+    <h2>Class Time Table Generator</h2>
+    <div class="input-section">
+      <input type="text" id="subject1" placeholder="Enter Subject 1">
+      <input type="text" id="subject2" placeholder="Enter Subject 2">
+      <input type="text" id="subject3" placeholder="Enter Subject 3">
+      <input type="text" id="subject4" placeholder="Enter Subject 4">
+      <input type="text" id="subject5" placeholder="Enter Subject 5">
+      <input type="text" id="subject6" placeholder="Enter Subject 6">
+      <button onclick="generateTimeTable()">Generate Time Table</button>
+    </div>
+    <div id="timetable"></div>
+    <div class="summary">
+      <h3>Weekly Period Count per Subject</h3>
+      <ul id="subject-summary"></ul>
+    </div>
+  </div>
+
+  <script>
+    function checkLogin() {
+      const password = document.getElementById('password').value;
+      if (password === 'techsalute') {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('main-container').style.display = 'block';
+      } else {
+        alert('Incorrect password. Try again.');
+      }
+    }
+
+    function generateTimeTable() {
+      const subjects = [
+        document.getElementById('subject1').value,
+        document.getElementById('subject2').value,
+        document.getElementById('subject3').value,
+        document.getElementById('subject4').value,
+        document.getElementById('subject5').value,
+        document.getElementById('subject6').value
+      ].filter(subject => subject.trim() !== "");
+
+      if (subjects.length !== 6) {
+        alert("Please enter all 6 subjects.");
+        return;
+      }
+
+      const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+      const periodsPerDay = 8;
+      const subjectCount = {};
+
+      let tableHTML = '<table><thead><tr><th>Day</th>';
+
+      for (let i = 1; i <= periodsPerDay; i++) {
+        tableHTML += `<th>Period ${i}</th>`;
+      }
+
+      tableHTML += '</tr></thead><tbody>';
+
+      for (let day of days) {
+        tableHTML += `<tr><td>${day}</td>`;
+        for (let i = 0; i < periodsPerDay; i++) {
+          const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
+          subjectCount[randomSubject] = (subjectCount[randomSubject] || 0) + 1;
+          tableHTML += `<td>${randomSubject}</td>`;
+        }
+        tableHTML += '</tr>';
+      }
+
+      tableHTML += '</tbody></table>';
+      document.getElementById('timetable').innerHTML = tableHTML;
+
+      let summaryHTML = '';
+      for (let subject of subjects) {
+        summaryHTML += `<li><strong>${subject}:</strong> ${subjectCount[subject] || 0} periods</li>`;
+      }
+      document.getElementById('subject-summary').innerHTML = summaryHTML;
+    }
+  </script>
+</body>
+</html>
+
