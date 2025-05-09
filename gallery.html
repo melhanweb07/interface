@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Photo Gallery</title>
+    <link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+    <div class="top-bar">
+        <button class="login-btn" onclick="showLoginPanel()">Login Panel</button>
+    </div>
+    <header class="gallery-header">
+        <h1>PHOTO GALLERY</h1>
+        <p class="subtitle">Explore the vibrant life of our college through stunning photos</p>
+    </header>
+    <div class="photo-count" id="photoCount"></div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginPanel()">&times;</span>
+            <h2>Login Panel</h2>
+            <div id="loginSection">
+                <input type="password" id="loginPassword" placeholder="Enter Password">
+                <button onclick="login()">Login</button>
+            </div>
+            <div id="uploadSection" style="display:none;">
+                <h3>Upload New Photo</h3>
+                <input type="file" id="uploadImage" accept="image/*"><br>
+                <input type="text" id="imageName" placeholder="Enter Image Name"><br>
+                <button onclick="uploadImageToGallery()">Upload</button>
+                <div id="uploadMessage"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content image-modal-content">
+            <span class="close" onclick="closeImageModal()">&times;</span>
+            <img id="modalImage" src="" alt="Large View">
+        </div>
+    </div>
+
+    <script src="gallery.js"></script>
+</body>
+</html> 
