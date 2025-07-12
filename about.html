@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - AI & DS Department</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles & Variables */
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1d4ed8;
+            --accent-color: #60a5fa;
+            --light-color: #f8fafc;
+            --dark-color: #e2e8f0;
+            --text-dark: #0f172a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #0f172a;
+            background-image: 
+                radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 1) 0px, transparent 0%), 
+                radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 1) 0px, transparent 50%), 
+                radial-gradient(at 52% 99%, hsla(355, 98%, 76%, 1) 0px, transparent 50%), 
+                radial-gradient(at 10% 29%, hsla(256, 96%, 68%, 1) 0px, transparent 50%), 
+                radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 1) 0px, transparent 50%), 
+                radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 1) 0px, transparent 50%), 
+                radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 1) 0px, transparent 50%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            padding: 30px;
+            color: var(--light-color);
+            margin-bottom: 30px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            margin-right: 20px;
+            height: 50px;
+            width: auto;
+        }
+
+        h1 {
+            color: var(--light-color);
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Page Content */
+        h2 {
+            color: var(--light-color);
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 2rem;
+        }
+        
+        h2 i {
+            margin-right: 12px;
+            color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            font-size: 1.1rem;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+            font-size: 1.1rem;
+        }
+        
+        li::before {
+            content: '\f00c'; /* Font Awesome check icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 12px;
+            color: var(--accent-color);
+        }
+        
+        /* Faculty Section */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .faculty-card {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .faculty-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .faculty-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .faculty-card h3 {
+            margin-bottom: 5px;
+            color: var(--light-color);
+            font-size: 1.2rem;
+        }
+
+        .faculty-card p {
+            font-size: 1rem;
+            color: var(--accent-color);
+        }
+        
+        /* JS reveal animation */
+        .reveal {
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding-top: 40px;
+            color: var(--dark-color);
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.5rem; }
+            .header-left {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 20px;
+            }
+            .logo { margin: 0 0 10px 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <img src="logo1.jpg" alt="Techsalute Logo" class="logo">
+                <h1>Department of AI & Data Science</h1>
+            </div>
+            <a href="index.html" class="back-btn"><i class="fa-solid fa-house"></i> Home</a>
+        </header>
+
+        <main>
+            <section class="glass-card reveal">
+                <h2><i class="fa-solid fa-building-columns"></i> About Our Department</h2>
+                <p>Welcome to the Department of Artificial Intelligence and Data Science, a dynamic and innovative hub where we shape the future of technology. Our mission is to push the boundaries of intelligent systems, machine learning, and big data analytics through cutting-edge research and hands-on education.</p>
+                <p>We are committed to nurturing the next generation of tech leaders and problem-solvers, equipping them with the skills to tackle complex global challenges.</p>
+            </section>
+
+            <section class="glass-card reveal">
+                <h2><i class="fa-solid fa-bullseye"></i> Vision & Mission</h2>
+                <p><strong>Vision:</strong> To be a globally recognized center of excellence in Artificial Intelligence and Data Science education and research, producing ethical and skilled professionals who drive innovation.</p>
+                <p><strong>Mission:</strong></p>
+                <ul>
+                    <li>To provide a comprehensive curriculum that masterfully balances theory and practical application.</li>
+                    <li>To cultivate a vibrant, research-oriented environment that encourages creativity and critical thinking.</li>
+                    <li>To forge strong collaborations with industry leaders to bridge the gap between academia and the real world.</li>
+                </ul>
+            </section>
+            
+            <section class="glass-card reveal">
+                <h2><i class="fa-solid fa-users"></i> Our Faculty</h2>
+                <div class="faculty-grid">
+                    <!-- Faculty Member 1 -->
+                    <div class="faculty-card">
+                        <img src="https://i.pravatar.cc/150?img=68" alt="Dr. Evelyn Reed">
+                        <h3>Dr. Evelyn Reed</h3>
+                        <p>Head of Department</p>
+                    </div>
+                    <!-- Faculty Member 2 -->
+                    <div class="faculty-card">
+                        <img src="https://i.pravatar.cc/150?img=60" alt="Prof. Samuel Chen">
+                        <h3>Prof. Samuel Chen</h3>
+                        <p>Professor, Machine Learning</p>
+                    </div>
+                    <!-- Faculty Member 3 -->
+                    <div class="faculty-card">
+                        <img src="https://i.pravatar.cc/150?img=32" alt="Dr. Anika Sharma">
+                        <h3>Dr. Anika Sharma</h3>
+                        <p>Asst. Professor, Data Analytics</p>
+                    </div>
+                     <!-- Faculty Member 4 -->
+                     <div class="faculty-card">
+                        <img src="https://i.pravatar.cc/150?img=14" alt="Dr. Ben Carter">
+                        <h3>Dr. Ben Carter</h3>
+                        <p>Asst. Professor, NLP</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2023 Techsalute. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Simple scroll-reveal animation
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150; // Distance from the bottom of the viewport
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                } else {
+                    reveals[i].classList.remove('active');
+                }
+            }
+        }
+
+        window.addEventListener('scroll', reveal);
+        // Initial check on page load
+        reveal();
+    </script>
+</body>
+</html> 
