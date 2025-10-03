@@ -3,48 +3,715 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College page</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>C.Abdul Hakeem College - AI & Data Science</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gradient: linear-gradient(135deg, #4361ee, #3a0ca3);
+            --gradient-accent: linear-gradient(135deg, #f72585, #b5179e);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --radius: 12px;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.2rem 0;
+            box-shadow: 0 5px 20px rgba(67, 97, 238, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            line-height: 1.2;
+        }
+
+        .logo-text span {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .header nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.7rem 1.2rem;
+            border-radius: 50px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .header nav a:hover::before {
+            left: 0;
+        }
+
+        .header nav a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header nav a.active {
+            background: var(--gradient-accent);
+            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 85vh;
+            background: var(--gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.1)"></path></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--gradient-accent);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            display: flex;
+            margin: 4rem 0;
+            gap: 2.5rem;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            flex: 0 0 300px;
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 3px solid;
+            border-image: var(--gradient) 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar h2 i {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin-bottom: 0.8rem;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--dark);
+            text-decoration: none;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: var(--gradient);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar a:hover::before {
+            transform: scaleY(1);
+        }
+
+        .sidebar a:hover {
+            background: rgba(67, 97, 238, 0.05);
+            transform: translateX(5px);
+            color: var(--primary);
+        }
+
+        .sidebar a i {
+            width: 25px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* Content Sections */
+        .content-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .content-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .content-card h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .content-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Gallery Styles */
+        .gallery-section {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .gallery-section h3 {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .gallery-container {
+            position: relative;
+        }
+
+        .gallery-main {
+            position: relative;
+            height: 500px;
+            margin-bottom: 1.5rem;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-view {
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-slides {
+            display: flex;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .gallery-slide {
+            flex: 0 0 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .gallery-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary);
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: 1.2rem;
+        }
+
+        .gallery-nav:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-nav.prev {
+            left: 20px;
+        }
+
+        .gallery-nav.next {
+            right: 20px;
+        }
+
+        .gallery-thumbnails {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .thumbnail {
+            width: 100px;
+            height: 75px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: var(--transition);
+            border: 3px solid transparent;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .thumbnail.active {
+            opacity: 1;
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .thumbnail:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-caption {
+            text-align: center;
+            font-style: italic;
+            color: var(--dark);
+            padding: 1rem;
+            background: rgba(67, 97, 238, 0.05);
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            color: var(--light);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient-accent);
+        }
+
+        .footer-section p {
+            margin-bottom: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: var(--gradient-accent);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                flex: 1;
+                position: static;
+            }
+            
+            .hero h2 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .header nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .gallery-main {
+                height: 350px;
+            }
+            
+            .content-card, .gallery-section {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header nav a {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .gallery-main {
+                height: 250px;
+            }
+            
+            .thumbnail {
+                width: 70px;
+                height: 50px;
+            }
+            
+            .gallery-nav {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>C.Abdul Hakeem College of Engineering and Technology</h1>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="college-logo.jpeg" alt="College Logo" style="width: 50px; height: 50px;">
+                </div>
+                <div class="logo-text">
+                    <h1>C.Abdul Hakeem College</h1>
+                    <span>Engineering & Technology</span>
+                </div>
+            </div>
             <nav>
-                <a href="#home">Home</a>
+                <a href="#home" class="active">Home</a>
                 <a href="#programs">Programs</a>
                 <a href="#admissions">Admissions</a>
                 <a href="#gallery">Gallery</a>
                 <a href="#contact">Contact</a>
             </nav>
-        </header>
+        </div>
+    </header>
 
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content fade-in">
+            <div>
+                <h2>Department of Artificial Intelligence and Data Science</h2>
+                <p>Driving innovation at the intersection of technology and intelligence. Join us as we explore the frontiers of AI, machine learning, and data-driven solutions that are redefining industries and improving lives.</p>
+                <div class="hero-buttons">
+                    <a href="#programs" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> Explore Programs
+                    </a>
+                    <a href="#admissions" class="btn btn-secondary">
+                        <i class="fas fa-user-graduate"></i> Apply Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
         <div class="main-content">
+            <!-- Sidebar -->
             <aside class="sidebar">
-                <h2>Quick Links</h2>
+                <h2><i class="fas fa-bolt"></i> Quick Links</h2>
                 <ul>
-                    <li><a href="https://melhanweb07.github.io/attendance-system/">Attedance Register</a></li>
-                    <li><a href="https://cahcetartificial.neocities.org/cahcetartificial/">Course Notes</a></li>
-                    <li><a href="https://melhanweb07.github.io/StudentData/">Student Performance</a></li>
-                    <li><a href="timet.html">Time Table Generator</a></li>
-                    <li><a href="feedback.html">Feedback Forms</a></li>
-                    <li><a href="#resources">Department Chatbot</a></li>
-                    <li><a href="cgpa.html">CGPA CALCULATOR</a></li>
-                    <li><a href="gallery.html">Event Gallery</a></li>
-                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="https://melhanweb07.github.io/attendance-system/"><i class="fas fa-clipboard-check"></i> Attendance Register</a></li>
+                    <li><a href="https://cahcetartificial.neocities.org/cahcetartificial/"><i class="fas fa-book"></i> Course Notes</a></li>
+                    <li><a href="https://melhanweb07.github.io/StudentData/"><i class="fas fa-chart-line"></i> Student Performance</a></li>
+                    <li><a href="timet.html"><i class="fas fa-calendar-alt"></i> Time Table Generator</a></li>
+                    <li><a href="feedback.html"><i class="fas fa-comment-alt"></i> Feedback Forms</a></li>
+                    <li><a href="#resources"><i class="fas fa-robot"></i> Department Chatbot</a></li>
+                    <li><a href="cgpa.html"><i class="fas fa-calculator"></i> CGPA Calculator</a></li>
+                    <li><a href="gallery.html"><i class="fas fa-images"></i> Event Gallery</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
                 </ul>
             </aside>
 
+            <!-- Main Content -->
             <main class="content-grid">
-                <section class="content-1" id="home">
-                    <h2>Welcome to the Department of Artificial Intelligence and Data Science</h2>
-                    <p>Driving innovation at the intersection of technology and intelligence, our department is dedicated to shaping the future through cutting-edge research, transformative education, and real-world impact. Join us as we explore the frontiers of AI, machine learning, and data-driven solutions that are redefining industries and improving lives.</p>
+                <!-- Welcome Section -->
+                <section class="content-card" id="about">
+                    <h2>Welcome to AI & Data Science</h2>
+                    <p>Our department is dedicated to shaping the future through cutting-edge research, transformative education, and real-world impact. We offer comprehensive programs that blend theoretical knowledge with practical applications, preparing students for successful careers in the rapidly evolving fields of artificial intelligence and data science.</p>
+                    <p>With state-of-the-art laboratories, experienced faculty, and industry partnerships, we provide an environment where innovation thrives and students can develop the skills needed to solve complex problems using data-driven approaches.</p>
                 </section>
 
-
-               
-
+                <!-- Gallery Section -->
                 <section class="gallery-section" id="gallery">
                     <h3>Department Gallery</h3>
                     <div class="gallery-container">
@@ -71,27 +738,184 @@
                 </section>
             </main>
         </div>
+    </div>
 
-        <footer class="footer" id="contact">
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>Contact Us</h4>
-                    <p>123 University Ave</p>
-                    <p>Email: info@university.edu</p>
-                    <p>Phone: (555) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 University Ave, Tech City</p>
+                    <p><i class="fas fa-envelope"></i> info@cahcet.edu</p>
+                    <p><i class="fas fa-phone"></i> (555) 123-4567</p>
                 </div>
                 <div class="footer-section">
                     <h4>Follow Us</h4>
                     <div class="social-links">
-                        <a href="#">Facebook</a>
-                        <a href="#">Twitter</a>
-                        <a href="#">Instagram</a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe to our newsletter for the latest updates and events.</p>
+                    <div style="display: flex; margin-top: 15px;">
+                        <input type="email" placeholder="Your email" style="padding: 10px; border: none; border-radius: 50px 0 0 50px; flex: 1;">
+                        <button style="background: var(--gradient-accent); color: white; border: none; padding: 0 20px; border-radius: 0 50px 50px 0; cursor: pointer;"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>
-        </footer>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html> 
+            <div class="footer-bottom">
+                <p>&copy; 2023 C.Abdul Hakeem College of Engineering and Technology. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
 
+    <script>
+        // Gallery data - replace with your actual images
+        const galleryData = [
+            {
+                src: "https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                caption: "Our state-of-the-art AI research laboratory"
+            },
+            {
+                src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                caption: "Students collaborating on data science projects"
+            },
+            {
+                src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                caption: "Machine learning workshop in progress"
+            },
+            {
+                src: "https://images.unsplash.com/photo-1562813733-b31f71025d54?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                caption: "Faculty members at an international AI conference"
+            },
+            {
+                src: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                caption: "Annual tech fest showcasing innovative student projects"
+            },
+            {
+                src: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                caption: "Industry experts interacting with students during a seminar"
+            }
+        ];
+
+        // Initialize gallery
+        document.addEventListener('DOMContentLoaded', function() {
+            const gallerySlides = document.querySelector('.gallery-slides');
+            const galleryThumbnails = document.querySelector('.gallery-thumbnails');
+            const galleryCaption = document.querySelector('.gallery-caption');
+            const prevButton = document.querySelector('.gallery-nav.prev');
+            const nextButton = document.querySelector('.gallery-nav.next');
+            
+            let currentSlide = 0;
+
+            // Create slides and thumbnails
+            galleryData.forEach((item, index) => {
+                // Create slide
+                const slide = document.createElement('div');
+                slide.className = 'gallery-slide';
+                slide.innerHTML = `<img src="${item.src}" alt="Gallery image ${index + 1}">`;
+                gallerySlides.appendChild(slide);
+
+                // Create thumbnail
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'thumbnail';
+                if (index === 0) thumbnail.classList.add('active');
+                thumbnail.innerHTML = `<img src="${item.src}" alt="Thumbnail ${index + 1}">`;
+                thumbnail.addEventListener('click', () => goToSlide(index));
+                galleryThumbnails.appendChild(thumbnail);
+            });
+
+            // Set initial caption
+            galleryCaption.textContent = galleryData[0].caption;
+
+            // Navigation functions
+            function goToSlide(index) {
+                currentSlide = index;
+                gallerySlides.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Update active thumbnail
+                document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+                    thumb.classList.toggle('active', i === currentSlide);
+                });
+                
+                // Update caption
+                galleryCaption.textContent = galleryData[currentSlide].caption;
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % galleryData.length;
+                goToSlide(currentSlide);
+            }
+
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + galleryData.length) % galleryData.length;
+                goToSlide(currentSlide);
+            }
+
+            // Event listeners
+            prevButton.addEventListener('click', prevSlide);
+            nextButton.addEventListener('click', nextSlide);
+
+            // Auto-advance slides
+            let slideInterval = setInterval(nextSlide, 5000);
+
+            // Pause auto-advance on hover
+            const galleryContainer = document.querySelector('.gallery-container');
+            galleryContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            galleryContainer.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Update active nav link
+                        document.querySelectorAll('.header nav a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // Add animation to elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            document.querySelectorAll('.content-card, .gallery-section').forEach(el => {
+                el.style.opacity = '0';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
