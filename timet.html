@@ -3,917 +3,2088 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Techsalute | Timetable Generator</title>
+    <title>College Timetable Generator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-    --primary-color: #4361ee;
-    --secondary-color: #3f37c9;
-    --accent-color: #4cc9f0;
-    --success-color: #4ad66d;
-    --warning-color: #f8961e;
-    --danger-color: #f94144;
-    --light-color: #f8f9fa;
-    --dark-color: #212529;
-    --text-color: #495057;
-    --border-color: #dee2e6;
-    --lab-color: #ff9f1c;
-    --regular-class-color: #7209b7;
-    --header-bg: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
-}
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #2c3e50;
+            --secondary-light: #34495e;
+            --success: #27ae60;
+            --success-light: #2ecc71;
+            --danger: #e74c3c;
+            --danger-light: #e67e22;
+            --warning: #f39c12;
+            --warning-light: #f1c40f;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --accent: #9b59b6;
+            --accent-light: #8e44ad;
+            --text: #333;
+            --text-light: #7f8c8d;
+            --border: #bdc3c7;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, #3498db, #2c3e50);
+            --gradient-success: linear-gradient(135deg, #27ae60, #2ecc71);
+            --gradient-warning: linear-gradient(135deg, #f39c12, #f1c40f);
+            --gradient-danger: linear-gradient(135deg, #e74c3c, #e67e22);
+            --gradient-accent: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f5f7fa;
-    color: var(--text-color);
-    line-height: 1.6;
-}
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
 
-.app-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-.app-header {
-    background: var(--header-bg);
-    color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
+        header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-accent);
+        }
 
-.logo i {
-    font-size: 1.75rem;
-}
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
 
-.logo h1 {
-    font-weight: 600;
-    font-size: 1.5rem;
-}
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
 
-.logo span {
-    font-weight: 300;
-}
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
 
-.main-container {
-    display: flex;
-    flex: 1;
-}
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
 
-.sidebar {
-    width: 320px;
-    background: white;
-    padding: 1.5rem;
-    border-right: 1px solid var(--border-color);
-    overflow-y: auto;
-}
+        .card-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 18px 25px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
 
-.content-area {
-    flex: 1;
-    padding: 1.5rem;
-    overflow-x: auto;
-}
+        .card-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-accent);
+        }
 
-.sidebar-section {
-    margin-bottom: 2rem;
-}
+        .card-body {
+            padding: 25px;
+        }
 
-.sidebar-section h3 {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    color: var(--dark-color);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 25px;
+            background: white;
+            border-radius: 10px 10px 0 0;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
 
-.form-group {
-    margin-bottom: 1rem;
-}
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--text-color);
-    font-weight: 500;
-}
+        .tab i {
+            font-size: 1.1rem;
+        }
 
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-family: 'Poppins', sans-serif;
-    transition: all 0.3s ease;
-}
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+            background: rgba(52, 152, 219, 0.05);
+        }
 
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-}
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
 
-.form-row {
-    display: flex;
-    gap: 1rem;
-}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-.form-row .form-group {
-    flex: 1;
-}
+        .tab-content.active {
+            display: block;
+        }
 
-.btn-primary {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-}
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-.btn-primary:hover {
-    background-color: var(--secondary-color);
-    transform: translateY(-2px);
-}
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary);
+        }
 
-.subject-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
 
-.subject-card {
-    background: white;
-    border-radius: 8px;
-    padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    border-left: 4px solid var(--primary-color);
-    transition: all 0.3s ease;
-    position: relative;
-}
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            background: white;
+        }
 
-.subject-card.lab {
-    border-left-color: var(--lab-color);
-}
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
 
-.subject-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
 
-.subject-name {
-    font-weight: 600;
-    color: var(--dark-color);
-    margin-bottom: 0.25rem;
-}
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
 
-.subject-meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    color: var(--text-color);
-}
+        .btn-success {
+            background: var(--gradient-success);
+            color: white;
+        }
 
-.subject-teacher {
-    font-style: italic;
-}
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        }
 
-.subject-type {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 500;
-}
+        .btn-danger {
+            background: var(--gradient-danger);
+            color: white;
+        }
 
-.subject-card.lab .subject-type {
-    background-color: var(--lab-color);
-}
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
 
-.subject-frequency {
-    background-color: var(--accent-color);
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 500;
-}
+        .btn-warning {
+            background: var(--gradient-warning);
+            color: white;
+        }
 
-.remove-subject {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background: none;
-    border: none;
-    color: var(--danger-color);
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+        }
 
-.subject-card:hover .remove-subject {
-    opacity: 1;
-}
+        .btn-accent {
+            background: var(--gradient-accent);
+            color: white;
+        }
 
-.timetable-controls {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.4);
+        }
 
-.btn-generate {
-    background-color: var(--success-color);
-}
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
 
-.btn-optimize {
-    background-color: var(--warning-color);
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-.btn-clear {
-    background-color: var(--danger-color);
-}
+        th, td {
+            border: 1px solid var(--border);
+            padding: 15px;
+            text-align: center;
+        }
 
-.btn-print {
-    background-color: white;
-    color: var(--primary-color);
-}
+        th {
+            background: var(--gradient-primary);
+            color: white;
+            font-weight: 600;
+            position: relative;
+        }
 
-.timetable-container {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-}
+        th::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-accent);
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+        .lunch-break {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0) !important;
+            font-weight: bold;
+            color: #d63031;
+        }
 
-th {
-    background-color: var(--primary-color);
-    color: white;
-    font-weight: 500;
-    padding: 1rem;
-    text-align: center;
-}
+        .timetable-cell {
+            min-height: 100px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            vertical-align: top;
+        }
 
-.time-header {
-    background-color: var(--secondary-color);
-}
+        .timetable-cell:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.02);
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
-td {
-    padding: 1rem;
-    border: 1px solid var(--border-color);
-    text-align: center;
-    vertical-align: middle;
-    transition: all 0.3s ease;
-}
+        .timetable-cell.empty {
+            background-color: #f8f9fa;
+        }
 
-td:hover {
-    transform: scale(1.02);
-}
+        .subject-info {
+            font-size: 0.85rem;
+            padding: 8px;
+            border-radius: 5px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-.class-card {
-    background-color: white;
-    border-radius: 6px;
-    padding: 0.75rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-left: 3px solid var(--regular-class-color);
-}
+        .subject-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--secondary);
+        }
 
-.class-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
+        .subject-code {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
 
-.class-card.lab {
-    border-left-color: var(--lab-color);
-    background-color: #fff8f0;
-}
+        .faculty-name {
+            font-size: 0.75rem;
+            color: var(--primary);
+            margin-top: 5px;
+            font-weight: 500;
+        }
 
-.class-subject {
-    font-weight: 600;
-    color: var(--dark-color);
-    margin-bottom: 0.25rem;
-}
+        .lab-cell {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-left: 4px solid var(--success);
+        }
 
-.class-teacher {
-    font-size: 0.85rem;
-    color: var(--text-color);
-    margin-bottom: 0.5rem;
-}
+        .theory-cell {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-left: 4px solid var(--primary);
+        }
 
-.class-actions {
-    display: flex;
-    justify-content: flex-end;
-}
+        .break-cell {
+            background: linear-gradient(135deg, #fff3e0, #ffccbc);
+            border-left: 4px solid var(--warning);
+            font-weight: bold;
+            color: var(--warning);
+        }
 
-.delete-class {
-    background-color: var(--danger-color);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+        .dragging {
+            opacity: 0.7;
+            transform: scale(0.95);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
 
-.delete-class:hover {
-    background-color: darken(var(--danger-color), 10%);
-}
+        .drop-zone {
+            background-color: #fff3cd;
+            border: 2px dashed var(--warning);
+        }
 
-/* Responsive adjustments */
-@media (max-width: 1200px) {
-    .sidebar {
-        width: 280px;
-    }
-}
+        .error-message {
+            background: linear-gradient(135deg, #ffcdd2, #ef9a9a);
+            color: #b71c1c;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid var(--danger);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
 
-@media (max-width: 992px) {
-    .main-container {
-        flex-direction: column;
-    }
-    
-    .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-    }
-    
-    .form-row {
-        flex-direction: column;
-        gap: 0;
-    }
-}
+        .success-message {
+            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+            color: #1b5e20;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid var(--success);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
 
-@media (max-width: 768px) {
-    .timetable-controls {
-        flex-direction: column;
-    }
-    
-    .app-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-    
-    .header-actions {
-        width: 100%;
-    }
-    
-    .btn-print {
-        width: 100%;
-    }
-}
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
 
-/* Animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+        .mobile-day {
+            display: none;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
-.subject-card {
-    animation: fadeIn 0.3s ease forwards;
-}
+        .mobile-day-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            text-align: center;
+        }
 
-.class-card {
-    animation: fadeIn 0.3s ease forwards;
-}
+        .mobile-periods {
+            border: 1px solid var(--border);
+            border-top: none;
+        }
+
+        .mobile-period {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            padding: 15px;
+            transition: background 0.3s;
+        }
+
+        .mobile-period:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-period:hover {
+            background: #f8f9fa;
+        }
+
+        .period-number {
+            flex: 0 0 80px;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .period-content {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .dynamic-list {
+            margin-top: 25px;
+        }
+
+        .list-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            align-items: center;
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary);
+        }
+
+        .list-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .list-item .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .remove-btn {
+            background: var(--gradient-danger);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .add-btn {
+            background: var(--gradient-success);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        }
+
+        .section-title {
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+            color: var(--secondary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-box h4 {
+            margin-bottom: 10px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box p {
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            .timetable-desktop {
+                display: none;
+            }
+            .mobile-day {
+                display: block;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+            .btn-group {
+                flex-direction: column;
+            }
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .list-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .remove-btn {
+                align-self: flex-end;
+            }
+        }
+
+        @media print {
+            header, .tabs, .action-buttons, .card-header {
+                display: none !important;
+            }
+            .card {
+                box-shadow: none;
+                border: 1px solid var(--border);
+            }
+            .timetable-cell {
+                min-height: auto;
+            }
+        }
+
+        .stats-container {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            flex: 1;
+            min-width: 150px;
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border-top: 4px solid var(--primary);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        #timetable {
+            table-layout: fixed;
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .timetable-cell {
+            vertical-align: top;
+            padding: 0;
+            border: 1px solid #ddd;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .timetable-cell:hover {
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+        
+        .lunch-break {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            text-align: center;
+            font-weight: bold;
+            color: #d63031;
+            width: 80px !important;
+        }
+        
+        .subject-info {
+            border-radius: 4px;
+            height: 100%;
+        }
+        
+        .lab-cell .subject-info {
+            background: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid #27ae60;
+        }
+        
+        .theory-cell .subject-info {
+            background: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid #3498db;
+        }
+        
+        .empty {
+            background: #f8f9fa;
+        }
+
+        .login-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .login-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-card h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-card .form-group {
+            margin-bottom: 20px;
+        }
+
+        .login-card button {
+            width: 100%;
+        }
+
+        /* Hide the main container initially */
+        .container {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <header class="app-header">
-            <div class="logo">
-                <i class="fas fa-calendar-alt"></i>
-                <h1>TimeTable <span>Generator</span></h1>
+    <div id="login-container" class="login-container">
+        <div class="login-card">
+            <h2><i class="fas fa-lock"></i> Login</h2>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password">
             </div>
-            <div class="header-actions">
-                <button id="print-btn" class="btn-print">
-                    <i class="fas fa-print"></i> Print
-                </button>
-            </div>
+            <button class="btn-primary" onclick="checkPassword()">Login</button>
+            <div id="login-error" class="error-message"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calendar-alt"></i> College Timetable Generator</h1>
+            <p class="subtitle">Automatically generate and edit department-wise timetables with ease</p>
+            <button class="btn-danger" style="position: absolute; right: 20px; top: 20px;" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
         </header>
 
-        <div class="main-container">
-            <aside class="sidebar">
-                <div class="sidebar-section">
-                    <h3><i class="fas fa-plus-circle"></i> Add New Subject</h3>
+        <div class="tabs">
+            <div class="tab active" data-tab="input">
+                <i class="fas fa-edit"></i> Input Data
+            </div>
+            <div class="tab" data-tab="timetable">
+                <i class="fas fa-table"></i> Timetable
+            </div>
+        </div>
+
+        <div class="card tab-content active" id="input-tab">
+            <div class="card-header">
+                <span><i class="fas fa-cog"></i> Input Configuration</span>
+            </div>
+            <div class="card-body">
+                <div class="error-message" id="input-error"></div>
+                <div class="success-message" id="input-success"></div>
+                
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> How to use</h4>
+                    <p>1. Fill in the basic college and department information</p>
+                    <p>2. Add faculty members who will be teaching</p>
+                    <p>3. Add subjects with their requirements and assigned faculty</p>
+                    <p>4. Click "Generate Timetable" to create your schedule</p>
+                </div>
+                
+                <h3 class="section-title"><i class="fas fa-university"></i> Basic Information</h3>
+                <div class="form-row">
                     <div class="form-group">
-                        <label for="new-subject">Subject Name</label>
-                        <input type="text" id="new-subject" placeholder="e.g. Mathematics">
+                        <label for="college-name"><i class="fas fa-school"></i> College Name</label>
+                        <input type="text" id="college-name" value="Example College">
                     </div>
                     <div class="form-group">
-                        <label for="new-teacher">Instructor</label>
-                        <input type="text" id="new-teacher" placeholder="e.g. Dr. Smith">
+                        <label for="department"><i class="fas fa-building"></i> Department</label>
+                        <input type="text" id="department" value="CSE">
                     </div>
-                    <div class="form-row">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="year"><i class="fas fa-graduation-cap"></i> Year</label>
+                        <input type="text" id="year" value="2nd Year">
+                    </div>
+                    <div class="form-group">
+                        <label for="semester"><i class="fas fa-book"></i> Semester</label>
+                        <input type="text" id="semester" value="4th Sem">
+                    </div>
+                </div>
+                
+                <h3 class="section-title"><i class="fas fa-chalkboard-teacher"></i> Faculty Information</h3>
+                <div class="dynamic-list" id="faculty-list">
+                    <div class="list-item">
                         <div class="form-group">
-                            <label for="new-type">Type</label>
-                            <select id="new-type">
-                                <option value="regular">Regular Class</option>
-                                <option value="lab">Laboratory</option>
+                            <label>Faculty Name</label>
+                            <input type="text" class="faculty-name" value="Prof. A">
+                        </div>
+                        <div class="form-group">
+                            <label>Faculty ID</label>
+                            <input type="text" class="faculty-id" value="A001">
+                        </div>
+                        <button class="remove-btn" onclick="removeFaculty(this)"><i class="fas fa-trash"></i> Remove</button>
+                    </div>
+                    <div class="list-item">
+                        <div class="form-group">
+                            <label>Faculty Name</label>
+                            <input type="text" class="faculty-name" value="Prof. B">
+                        </div>
+                        <div class="form-group">
+                            <label>Faculty ID</label>
+                            <input type="text" class="faculty-id" value="B001">
+                        </div>
+                        <button class="remove-btn" onclick="removeFaculty(this)"><i class="fas fa-trash"></i> Remove</button>
+                    </div>
+                </div>
+                <button class="add-btn" onclick="addFaculty()"><i class="fas fa-plus"></i> Add Faculty</button>
+                
+                <h3 class="section-title"><i class="fas fa-book-open"></i> Subject Information</h3>
+                <div class="dynamic-list" id="subjects-list">
+                    <div class="list-item">
+                        <div class="form-group">
+                            <label>Subject Name</label>
+                            <input type="text" class="subject-name" value="Algorithms">
+                        </div>
+                        <div class="form-group">
+                            <label>Subject Code</label>
+                            <input type="text" class="subject-code" value="CSE201">
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select class="subject-type">
+                                <option value="theory">Theory</option>
+                                <option value="lab">Lab</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="new-frequency">Sessions/Week</label>
-                            <select id="new-frequency">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                            <label>Periods/Week</label>
+                            <input type="number" class="subject-periods" value="4" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Faculty</label>
+                            <select class="subject-faculty">
+                                <option value="Prof. A">Prof. A</option>
+                                <option value="Prof. B">Prof. B</option>
                             </select>
                         </div>
+                        <div class="form-group lab-length-group" style="display: none;">
+                            <label>Lab Length</label>
+                            <select class="lab-length">
+                                <option value="2">2 periods</option>
+                                <option value="3">3 periods</option>
+                            </select>
+                        </div>
+                        <button class="remove-btn" onclick="removeSubject(this)"><i class="fas fa-trash"></i> Remove</button>
                     </div>
-                    <button id="add-subject-btn" class="btn-primary">
-                        <i class="fas fa-plus"></i> Add Subject
-                    </button>
-                </div>
-
-                <div class="sidebar-section subject-list">
-                    <h3><i class="fas fa-book-open"></i> Your Subjects</h3>
-                    <div id="subjects-container" class="subject-cards">
-                        <!-- Subjects will be added here -->
+                    <div class="list-item">
+                        <div class="form-group">
+                            <label>Subject Name</label>
+                            <input type="text" class="subject-name" value="Database Systems">
+                        </div>
+                        <div class="form-group">
+                            <label>Subject Code</label>
+                            <input type="text" class="subject-code" value="CSE202">
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select class="subject-type">
+                                <option value="theory">Theory</option>
+                                <option value="lab">Lab</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Periods/Week</label>
+                            <input type="number" class="subject-periods" value="3" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Faculty</label>
+                            <select class="subject-faculty">
+                                <option value="Prof. A">Prof. A</option>
+                                <option value="Prof. B">Prof. B</option>
+                            </select>
+                        </div>
+                        <div class="form-group lab-length-group" style="display: none;">
+                            <label>Lab Length</label>
+                            <select class="lab-length">
+                                <option value="2">2 periods</option>
+                                <option value="3">3 periods</option>
+                            </select>
+                        </div>
+                        <button class="remove-btn" onclick="removeSubject(this)"><i class="fas fa-trash"></i> Remove</button>
+                    </div>
+                    <div class="list-item">
+                        <div class="form-group">
+                            <label>Subject Name</label>
+                            <input type="text" class="subject-name" value="Algorithms Lab">
+                        </div>
+                        <div class="form-group">
+                            <label>Subject Code</label>
+                            <input type="text" class="subject-code" value="CSE205L">
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select class="subject-type">
+                                <option value="theory">Theory</option>
+                                <option value="lab" selected>Lab</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Periods/Week</label>
+                            <input type="number" class="subject-periods" value="2" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Faculty</label>
+                            <select class="subject-faculty">
+                                <option value="Prof. A">Prof. A</option>
+                                <option value="Prof. B" selected>Prof. B</option>
+                            </select>
+                        </div>
+                        <div class="form-group lab-length-group">
+                            <label>Lab Length</label>
+                            <select class="lab-length">
+                                <option value="2" selected>2 periods</option>
+                                <option value="3">3 periods</option>
+                            </select>
+                        </div>
+                        <button class="remove-btn" onclick="removeSubject(this)"><i class="fas fa-trash"></i> Remove</button>
                     </div>
                 </div>
-            </aside>
+                <button class="add-btn" onclick="addSubject()"><i class="fas fa-plus"></i> Add Subject</button>
+                
+                <div class="btn-group">
+                    <button class="btn-primary" id="generate-btn"><i class="fas fa-magic"></i> Generate Timetable</button>
+                    <button class="btn-warning" id="clear-btn"><i class="fas fa-broom"></i> Clear All</button>
+                </div>
+            </div>
+        </div>
 
-            <main class="content-area">
-                <div class="timetable-controls">
-                    <button id="generate-btn" class="btn-generate">
-                        <i class="fas fa-magic"></i> Generate Timetable
-                    </button>
-                    <button id="optimize-btn" class="btn-optimize">
-                        <i class="fas fa-sync-alt"></i> Optimize
-                    </button>
-                    <button id="clear-btn" class="btn-clear">
-                        <i class="fas fa-trash-alt"></i> Clear All
-                    </button>
+        <div class="card tab-content" id="timetable-tab">
+            <div class="card-header">
+                <span><i class="fas fa-calendar-week"></i> Generated Timetable</span>
+                <div>
+                    <button class="btn-accent" id="edit-toggle-btn"><i class="fas fa-edit"></i> Enable Editing</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="error-message" id="timetable-error"></div>
+                <div class="success-message" id="timetable-success"></div>
+                
+                <div class="stats-container" id="stats-container" style="display: none;">
+                    <div class="stat-box">
+                        <div class="stat-label">Total Subjects</div>
+                        <div class="stat-value" id="total-subjects">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total Faculty</div>
+                        <div class="stat-value" id="total-faculty">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Theory Classes</div>
+                        <div class="stat-value" id="theory-classes">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Lab Sessions</div>
+                        <div class="stat-value" id="lab-sessions">0</div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn-primary" id="print-btn"><i class="fas fa-print"></i> Print Timetable</button>
+                    <button class="btn-success" id="export-csv-btn"><i class="fas fa-file-csv"></i> Export as CSV</button>
+                    <button class="btn-warning" id="undo-btn"><i class="fas fa-undo"></i> Undo</button>
+                    <button class="btn-danger" id="reset-btn"><i class="fas fa-redo"></i> Reset to Generated</button>
                 </div>
 
-                <div class="timetable-container">
-                    <table id="timetable">
-                        <thead>
-                            <tr>
-                                <th class="time-header">Time</th>
-                                <th>Monday</th>
-                                <th>Tuesday</th>
-                                <th>Wednesday</th>
-                                <th>Thursday</th>
-                                <th>Friday</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Timetable rows will be generated here -->
-                        </tbody>
-                    </table>
+                <div id="timetable-container">
+                    <!-- Desktop timetable -->
+                    <div class="timetable-desktop">
+                        <table id="timetable">
+                            <thead>
+                                <tr>
+                                    <th>Day / Period</th>
+                                    <th>Period 1<br>(50 min)</th>
+                                    <th>Period 2<br>(50 min)</th>
+                                    <th>Period 3<br>(50 min)</th>
+                                    <th>Period 4<br>(50 min)</th>
+                                    <th class="lunch-break">LUNCH BREAK</th>
+                                    <th>Period 5<br>(45 min)</th>
+                                    <th>Period 6<br>(45 min)</th>
+                                    <th>Period 7<br>(45 min)</th>
+                                    <th>Period 8<br>(45 min)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Timetable rows will be generated here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mobile timetable -->
+                    <div class="timetable-mobile">
+                        <!-- Mobile timetable will be generated here -->
+                    </div>
                 </div>
-            </main>
+            </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
-    const timetableBody = document.getElementById('timetable').getElementsByTagName('tbody')[0];
-    const subjectsContainer = document.getElementById('subjects-container');
-    
-    // Data
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    const subjects = [];
-    let generatedTimetable = [];
-    
-    // Initialize timetable structure
-    function initializeTimetable() {
-        timetableBody.innerHTML = '';
-        
-        // Create 8 periods (rows)
-        for (let i = 1; i <= 8; i++) {
-            const row = document.createElement('tr');
-            
-            // Add time column
-            const timeCell = document.createElement('td');
-            timeCell.className = 'time-col';
-            
-            // Calculate time based on period number (assuming 1 hour per period starting at 8:00)
-            const startHour = 8 + i - 1;
-            const endHour = 8 + i;
-            const startTime = formatTime(startHour);
-            const endTime = formatTime(endHour);
-            
-            timeCell.textContent = `${startTime} - ${endTime}`;
-            row.appendChild(timeCell);
-            
-            // Add cells for each day
-            days.forEach(day => {
-                const cell = document.createElement('td');
-                cell.id = `${day.toLowerCase()}-${i}`;
-                row.appendChild(cell);
+        // Global variables
+        let timetableData = null;
+        let isEditMode = false;
+        let editHistory = [];
+        let currentHistoryIndex = -1;
+
+        // DOM elements
+        const generateBtn = document.getElementById('generate-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const editToggleBtn = document.getElementById('edit-toggle-btn');
+        const printBtn = document.getElementById('print-btn');
+        const exportCsvBtn = document.getElementById('export-csv-btn');
+        const undoBtn = document.getElementById('undo-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const inputError = document.getElementById('input-error');
+        const inputSuccess = document.getElementById('input-success');
+        const timetableError = document.getElementById('timetable-error');
+        const timetableSuccess = document.getElementById('timetable-success');
+        const timetableContainer = document.getElementById('timetable-container');
+        const statsContainer = document.getElementById('stats-container');
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', initApp);
+        generateBtn.addEventListener('click', generateTimetable);
+        clearBtn.addEventListener('click', clearInput);
+        editToggleBtn.addEventListener('click', toggleEditMode);
+        printBtn.addEventListener('click', printTimetable);
+        exportCsvBtn.addEventListener('click', exportToCSV);
+        undoBtn.addEventListener('click', undoEdit);
+        resetBtn.addEventListener('click', resetTimetable);
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
             });
+        });
+
+        // Initialize the application
+        function initApp() {
+            updateFacultyDropdowns();
             
-            timetableBody.appendChild(row);
+            // Add event listeners for subject type changes
+            document.addEventListener('change', function(e) {
+                if (e.target.classList.contains('subject-type')) {
+                    const labLengthGroup = e.target.closest('.list-item').querySelector('.lab-length-group');
+                    labLengthGroup.style.display = e.target.value === 'lab' ? 'block' : 'none';
+                }
+            });
         }
-    }
-    
-    // Helper function to format time
-    function formatTime(hour) {
-        const period = hour >= 12 ? 'PM' : 'AM';
-        const displayHour = hour > 12 ? hour - 12 : hour;
-        return `${displayHour}:00 ${period}`;
-    }
-    
-    // Add subject to the list
-    function addSubject() {
-        const subjectName = document.getElementById('new-subject').value.trim();
-        const teacherName = document.getElementById('new-teacher').value.trim();
-        const subjectType = document.getElementById('new-type').value;
-        const frequency = parseInt(document.getElementById('new-frequency').value);
-        
-        if (!subjectName || !teacherName) {
-            showAlert('Please enter both subject and teacher name', 'error');
-            return;
-        }
-        
-        const subject = {
-            id: Date.now(),
-            name: subjectName,
-            teacher: teacherName,
-            type: subjectType,
-            frequency: frequency
+
+        // Check if user is already logged in
+        window.onload = function() {
+            const isLoggedIn = localStorage.getItem('timetableLoggedIn');
+            if (isLoggedIn === 'true') {
+                showMainContent();
+            }
+            initApp();
         };
-        
-        subjects.push(subject);
-        updateSubjectList();
-        
-        // Clear inputs
-        document.getElementById('new-subject').value = '';
-        document.getElementById('new-teacher').value = '';
-        
-        showAlert('Subject added successfully!', 'success');
-    }
-    
-    // Update the subject list display
-    function updateSubjectList() {
-        subjectsContainer.innerHTML = '';
-        
-        if (subjects.length === 0) {
-            subjectsContainer.innerHTML = '<p class="empty-message">No subjects added yet</p>';
-            return;
+
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password === 'admin-ai') {
+                localStorage.setItem('timetableLoggedIn', 'true');
+                showMainContent();
+            } else {
+                showMessage(document.getElementById('login-error'), 'Incorrect password');
+            }
         }
-        
-        subjects.forEach((subject, index) => {
-            const subjectCard = document.createElement('div');
-            subjectCard.className = `subject-card ${subject.type === 'lab' ? 'lab' : ''}`;
-            subjectCard.dataset.id = subject.id;
-            
-            subjectCard.innerHTML = `
-                <div class="subject-name">${subject.name}</div>
-                <div class="subject-meta">
-                    <span class="subject-teacher">${subject.teacher}</span>
-                    <div>
-                        <span class="subject-type">${subject.type === 'lab' ? 'LAB' : 'Class'}</span>
-                        <span class="subject-frequency">${subject.frequency}x/wk</span>
-                    </div>
+
+        function showMainContent() {
+            document.getElementById('login-container').style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+        }
+
+        // Add faculty member
+        function addFaculty() {
+            const facultyList = document.getElementById('faculty-list');
+            const newItem = document.createElement('div');
+            newItem.className = 'list-item';
+            newItem.innerHTML = `
+                <div class="form-group">
+                    <label>Faculty Name</label>
+                    <input type="text" class="faculty-name" placeholder="Enter faculty name">
                 </div>
-                <button class="remove-subject" data-id="${subject.id}">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="form-group">
+                    <label>Faculty ID</label>
+                    <input type="text" class="faculty-id" placeholder="Enter faculty ID">
+                </div>
+                <button class="remove-btn" onclick="removeFaculty(this)"><i class="fas fa-trash"></i> Remove</button>
             `;
+            facultyList.appendChild(newItem);
+            updateFacultyDropdowns();
+        }
+
+        // Remove faculty member
+        function removeFaculty(button) {
+            const facultyList = document.getElementById('faculty-list');
+            if (facultyList.children.length > 1) {
+                button.parentElement.remove();
+                updateFacultyDropdowns();
+            } else {
+                showMessage(inputError, "At least one faculty member is required");
+            }
+        }
+
+        // Add subject
+        function addSubject() {
+            const subjectsList = document.getElementById('subjects-list');
+            const newItem = document.createElement('div');
+            newItem.className = 'list-item';
+            newItem.innerHTML = `
+                <div class="form-group">
+                    <label>Subject Name</label>
+                    <input type="text" class="subject-name" placeholder="Enter subject name">
+                </div>
+                <div class="form-group">
+                    <label>Subject Code</label>
+                    <input type="text" class="subject-code" placeholder="Enter subject code">
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select class="subject-type">
+                        <option value="theory">Theory</option>
+                        <option value="lab">Lab</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Periods/Week</label>
+                    <input type="number" class="subject-periods" value="1" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Faculty</label>
+                    <select class="subject-faculty"></select>
+                </div>
+                <div class="form-group lab-length-group" style="display: none;">
+                    <label>Lab Length</label>
+                    <select class="lab-length">
+                        <option value="2">2 periods</option>
+                        <option value="3">3 periods</option>
+                    </select>
+                </div>
+                <button class="remove-btn" onclick="removeSubject(this)"><i class="fas fa-trash"></i> Remove</button>
+            `;
+            subjectsList.appendChild(newItem);
+            updateFacultyDropdowns();
+        }
+
+        // Remove subject
+        function removeSubject(button) {
+            const subjectsList = document.getElementById('subjects-list');
+            if (subjectsList.children.length > 1) {
+                button.parentElement.remove();
+            } else {
+                showMessage(inputError, "At least one subject is required");
+            }
+        }
+
+        // Update faculty dropdowns in all subjects
+        function updateFacultyDropdowns() {
+            const facultyDropdowns = document.querySelectorAll('.subject-faculty');
+            const facultyNames = Array.from(document.querySelectorAll('.faculty-name'))
+                .map(input => input.value)
+                .filter(name => name.trim() !== '');
             
-            subjectsContainer.appendChild(subjectCard);
-        });
-        
-        // Add event listeners to remove buttons
-        document.querySelectorAll('.remove-subject').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const subjectId = parseInt(this.dataset.id);
-                removeSubject(subjectId);
+            facultyDropdowns.forEach(dropdown => {
+                dropdown.innerHTML = '';
+                facultyNames.forEach(name => {
+                    const option = document.createElement('option');
+                    option.value = name;
+                    option.textContent = name;
+                    dropdown.appendChild(option);
+                });
             });
-        });
-    }
-    
-    // Remove subject from list
-    function removeSubject(id) {
-        const index = subjects.findIndex(subject => subject.id === id);
-        if (index !== -1) {
-            subjects.splice(index, 1);
-            updateSubjectList();
-            showAlert('Subject removed', 'info');
         }
-    }
-    
-    // Generate timetable with labs
-    function generateTimetable() {
-        if (subjects.length === 0) {
-            showAlert('Please add at least one subject', 'error');
-            return;
-        }
-        
-        // Clear existing timetable
-        clearTimetable();
-        
-        // Create scheduling data structure
-        generatedTimetable = initializeTimetableData();
-        
-        // Separate lab and regular subjects
-        const labSubjects = subjects.filter(s => s.type === 'lab');
-        const regularSubjects = subjects.filter(s => s.type !== 'lab');
-        
-        // Schedule lab subjects first (they have more constraints)
-        labSubjects.forEach(subject => {
-            for (let i = 0; i < subject.frequency; i++) {
-                scheduleLabSubject(subject, generatedTimetable);
-            }
-        });
-        
-        // Schedule regular subjects
-        regularSubjects.forEach(subject => {
-            for (let i = 0; i < subject.frequency; i++) {
-                scheduleRegularSubject(subject, generatedTimetable);
-            }
-        });
-        
-        // Render the timetable
-        renderTimetable(generatedTimetable);
-        
-        showAlert('Timetable generated successfully!', 'success');
-    }
-    
-    // Initialize empty timetable data structure
-    function initializeTimetableData() {
-        const timetableData = [];
-        for (let day = 0; day < 5; day++) {
-            timetableData[day] = [];
-            for (let period = 0; period < 8; period++) {
-                timetableData[day][period] = {
-                    subject: null,
-                    teacher: null,
-                    type: null,
-                    span: 1 // 1 for regular, 2 for lab
-                };
-            }
-        }
-        return timetableData;
-    }
-    
-    // Schedule a lab subject (requires 2 consecutive periods)
-    function scheduleLabSubject(subject, timetableData) {
-        let placed = false;
-        let attempts = 0;
-        const maxAttempts = 50;
-        
-        while (!placed && attempts < maxAttempts) {
-            attempts++;
-            const randomDay = Math.floor(Math.random() * 5);
-            const randomPeriod = Math.floor(Math.random() * 7); // Max period 7 because lab needs 2 periods
+
+        // Clear all input
+        function clearInput() {
+            document.getElementById('college-name').value = '';
+            document.getElementById('department').value = '';
+            document.getElementById('year').value = '';
+            document.getElementById('semester').value = '';
             
-            // Check if both periods are available
-            if (timetableData[randomDay][randomPeriod].subject === null &&
-                timetableData[randomDay][randomPeriod + 1].subject === null) {
-                
-                // Mark both periods as occupied by this lab
-                timetableData[randomDay][randomPeriod] = {
-                    subject: subject.name,
-                    teacher: subject.teacher,
-                    type: 'lab',
-                    span: 2,
-                    labPart: 'start'
-                };
-                
-                timetableData[randomDay][randomPeriod + 1] = {
-                    subject: subject.name,
-                    teacher: subject.teacher,
-                    type: 'lab',
-                    span: 2,
-                    labPart: 'end'
-                };
-                
-                placed = true;
-                
-                // Avoid same subject on consecutive days
-                markAvoidance(randomDay, subject.name, timetableData);
-            }
-        }
-        
-        if (!placed) {
-            console.warn(`Could not place lab ${subject.name} after ${maxAttempts} attempts`);
-        }
-    }
-    
-    // Schedule a regular subject (single period)
-    function scheduleRegularSubject(subject, timetableData) {
-        let placed = false;
-        let attempts = 0;
-        const maxAttempts = 50;
-        
-        while (!placed && attempts < maxAttempts) {
-            attempts++;
-            const randomDay = Math.floor(Math.random() * 5);
-            const randomPeriod = Math.floor(Math.random() * 8);
+            const facultyList = document.getElementById('faculty-list');
+            facultyList.innerHTML = '';
+            addFaculty();
             
-            // Check if period is available
-            if (timetableData[randomDay][randomPeriod].subject === null) {
-                timetableData[randomDay][randomPeriod] = {
-                    subject: subject.name,
-                    teacher: subject.teacher,
-                    type: 'regular',
-                    span: 1
-                };
-                
-                placed = true;
-                
-                // Avoid same subject on consecutive days
-                markAvoidance(randomDay, subject.name, timetableData);
-            }
+            const subjectsList = document.getElementById('subjects-list');
+            subjectsList.innerHTML = '';
+            addSubject();
+            
+            showMessage(inputSuccess, "All inputs cleared!");
         }
-        
-        if (!placed) {
-            console.warn(`Could not place ${subject.name} after ${maxAttempts} attempts`);
-        }
-    }
-    
-    // Mark periods to avoid for the same subject on consecutive days
-    function markAvoidance(dayIndex, subjectName, timetableData) {
-        // Avoid same subject in adjacent periods on the same day
-        for (let period = 0; period < 8; period++) {
-            if (timetableData[dayIndex][period].subject === null) {
-                timetableData[dayIndex][period].avoidSubject = subjectName;
-            }
-        }
-    }
-    
-    // Render the timetable from data
-    function renderTimetable(timetableData) {
-        clearTimetable();
-        
-        for (let day = 0; day < 5; day++) {
-            for (let period = 0; period < 8; period++) {
-                const slot = timetableData[day][period];
+
+        // Generate timetable from form data
+        function generateTimetable() {
+            try {
+                // Collect basic information
+                const college = document.getElementById('college-name').value || 'Example College';
+                const department = document.getElementById('department').value || 'CSE';
+                const year = document.getElementById('year').value || '2nd Year';
+                const semester = document.getElementById('semester').value || '4th Sem';
                 
-                // Skip the second part of lab sessions
-                if (slot.span === 2 && slot.labPart === 'end') continue;
+                // Collect faculty information
+                const faculty = [];
+                const facultyItems = document.querySelectorAll('#faculty-list .list-item');
+                facultyItems.forEach(item => {
+                    const name = item.querySelector('.faculty-name').value;
+                    const id = item.querySelector('.faculty-id').value;
+                    if (name && id) {
+                        faculty.push({ name, id });
+                    }
+                });
                 
-                const dayName = days[day];
-                const cellId = `${dayName.toLowerCase()}-${period + 1}`;
-                const cell = document.getElementById(cellId);
-                
-                if (slot.subject) {
-                    const classCard = createClassCard(
-                        slot.subject, 
-                        slot.teacher, 
-                        slot.type,
-                        slot.span
-                    );
+                // Collect subject information
+                const subjects = [];
+                const subjectItems = document.querySelectorAll('#subjects-list .list-item');
+                subjectItems.forEach(item => {
+                    const name = item.querySelector('.subject-name').value;
+                    const code = item.querySelector('.subject-code').value;
+                    const type = item.querySelector('.subject-type').value;
+                    const periods_per_week = parseInt(item.querySelector('.subject-periods').value) || 1;
+                    const facultyName = item.querySelector('.subject-faculty').value;
                     
-                    cell.appendChild(classCard);
+                    if (name && code && facultyName) {
+                        const subject = {
+                            name,
+                            code,
+                            type,
+                            periods_per_week,
+                            faculty: facultyName
+                        };
+                        
+                        if (type === 'lab') {
+                            subject.lab_length = parseInt(item.querySelector('.lab-length').value) || 2;
+                        }
+                        
+                        subjects.push(subject);
+                    }
+                });
+                
+                // Validate input data
+                if (faculty.length === 0) {
+                    showMessage(inputError, "Please add at least one faculty member");
+                    return;
+                }
+                
+                if (subjects.length === 0) {
+                    showMessage(inputError, "Please add at least one subject");
+                    return;
+                }
+                
+                // Create input data object
+                const inputData = {
+                    college,
+                    department,
+                    year,
+                    semester,
+                    periods_per_day: 8,
+                    days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                    period_structure: {
+                        "1": {"session": "morning", "length": 50},
+                        "2": {"session": "morning", "length": 50},
+                        "3": {"session": "morning", "length": 50},
+                        "4": {"session": "morning", "length": 50},
+                        "5": {"session": "afternoon", "length": 45},
+                        "6": {"session": "afternoon", "length": 45},
+                        "7": {"session": "afternoon", "length": 45},
+                        "8": {"session": "afternoon", "length": 45}
+                    },
+                    subjects,
+                    faculty
+                };
+                
+                // Validate input data
+                if (!validateInputData(inputData)) {
+                    return;
+                }
+                
+                // Generate timetable
+                timetableData = generateTimetableFromData(inputData);
+                
+                // Display timetable
+                displayTimetable(timetableData);
+                
+                // Update stats
+                updateStats(inputData);
+                
+                // Save initial state to history
+                editHistory = [JSON.parse(JSON.stringify(timetableData))];
+                currentHistoryIndex = 0;
+                
+                // Switch to timetable tab
+                tabs[1].click();
+                
+                showMessage(timetableSuccess, "Timetable generated successfully!");
+            } catch (error) {
+                showMessage(inputError, "Error generating timetable: " + error.message);
+            }
+        }
+
+        // Update statistics
+        function updateStats(data) {
+            const totalSubjects = document.getElementById('total-subjects');
+            const totalFaculty = document.getElementById('total-faculty');
+            const theoryClasses = document.getElementById('theory-classes');
+            const labSessions = document.getElementById('lab-sessions');
+            
+            totalSubjects.textContent = data.subjects.length;
+            totalFaculty.textContent = data.faculty.length;
+            
+            const theoryCount = data.subjects.filter(s => s.type === 'theory').length;
+            const labCount = data.subjects.filter(s => s.type === 'lab').length;
+            
+            theoryClasses.textContent = theoryCount;
+            labSessions.textContent = labCount;
+            
+            statsContainer.style.display = 'flex';
+        }
+
+        // Validate input data
+        function validateInputData(data) {
+            if (!data.days || !Array.isArray(data.days) || data.days.length === 0) {
+                showMessage(inputError, "Invalid or missing days data");
+                return false;
+            }
+            
+            if (!data.subjects || !Array.isArray(data.subjects) || data.subjects.length === 0) {
+                showMessage(inputError, "Invalid or missing subjects data");
+                return false;
+            }
+            
+            if (!data.faculty || !Array.isArray(data.faculty) || data.faculty.length === 0) {
+                showMessage(inputError, "Invalid or missing faculty data");
+                return false;
+            }
+            
+            // Check for faculty conflicts
+            const facultyAssignments = {};
+            data.subjects.forEach(subject => {
+                if (!facultyAssignments[subject.faculty]) {
+                    facultyAssignments[subject.faculty] = 0;
+                }
+                facultyAssignments[subject.faculty] += subject.periods_per_week;
+            });
+            
+            // Check if any faculty is over-assigned
+            const totalPeriods = data.days.length * data.periods_per_day;
+            for (const faculty in facultyAssignments) {
+                if (facultyAssignments[faculty] > totalPeriods) {
+                    showMessage(inputError, `Faculty ${faculty} is assigned ${facultyAssignments[faculty]} periods, but only ${totalPeriods} periods are available`);
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        // Generate timetable from input data
+        function generateTimetableFromData(data) {
+            const timetable = {
+                college: data.college,
+                department: data.department,
+                year: data.year,
+                semester: data.semester,
+                days: data.days,
+                periods: data.periods_per_day,
+                schedule: {}
+            };
+            
+            // Initialize empty schedule
+            data.days.forEach(day => {
+                timetable.schedule[day] = {};
+                for (let i = 1; i <= data.periods_per_day; i++) {
+                    timetable.schedule[day][i] = null;
+                }
+            });
+            
+            // Separate theory and lab subjects
+            const theorySubjects = data.subjects.filter(s => s.type === 'theory');
+            const labSubjects = data.subjects.filter(s => s.type === 'lab');
+            
+            // Schedule lab subjects first (they have more constraints)
+            labSubjects.forEach(subject => {
+                scheduleLabSubject(timetable, subject, data);
+            });
+            
+            // Schedule theory subjects
+            theorySubjects.forEach(subject => {
+                scheduleTheorySubject(timetable, subject, data);
+            });
+            
+            return timetable;
+        }
+
+        // Schedule a lab subject
+        function scheduleLabSubject(timetable, subject, data) {
+            const labLength = subject.lab_length;
+            const periodsNeeded = subject.periods_per_week;
+            let scheduled = 0;
+            
+            // Try to schedule the lab in consecutive periods
+            for (let day of data.days) {
+                for (let period = 1; period <= data.periods_per_day - labLength + 1; period++) {
+                    // Check if we can place the lab starting at this period
+                    let canPlace = true;
+                    
+                    // Check if all required periods are free
+                    for (let i = 0; i < labLength; i++) {
+                        if (timetable.schedule[day][period + i] !== null) {
+                            canPlace = false;
+                            break;
+                        }
+                    }
+                    
+                    // Check if lab spans across lunch break (periods 4-5)
+                    if (canPlace && period <= 4 && period + labLength - 1 >= 5) {
+                        canPlace = false;
+                    }
+                    
+                    // Check faculty availability
+                    if (canPlace) {
+                        for (let i = 0; i < labLength; i++) {
+                            if (isFacultyBusy(timetable, subject.faculty, day, period + i)) {
+                                canPlace = false;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Place the lab if possible
+                    if (canPlace) {
+                        for (let i = 0; i < labLength; i++) {
+                            timetable.schedule[day][period + i] = {
+                                subject: subject.name,
+                                code: subject.code,
+                                faculty: subject.faculty,
+                                type: subject.type,
+                                labLength: labLength,
+                                isStart: i === 0,
+                                isLab: true
+                            };
+                        }
+                        scheduled += labLength;
+                        
+                        if (scheduled >= periodsNeeded) {
+                            return;
+                        }
+                        
+                        // Skip ahead to avoid overlapping
+                        period += labLength - 1;
+                    }
                 }
             }
         }
-    }
-    
-    // Create a class card element
-    function createClassCard(subject, teacher, type, span = 1) {
-        const classCard = document.createElement('div');
-        classCard.className = `class-card ${type === 'lab' ? 'lab' : ''}`;
-        
-        classCard.innerHTML = `
-            <div class="class-subject">${subject}${span > 1 ? ' (Lab)' : ''}</div>
-            <div class="class-teacher">${teacher}</div>
-            <div class="class-actions">
-                <button class="delete-class">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </div>
-        `;
-        
-        // Add delete functionality
-        classCard.querySelector('.delete-class').addEventListener('click', function(e) {
-            e.stopPropagation();
-            classCard.remove();
-        });
-        
-        return classCard;
-    }
-    
-    // Optimize the timetable (try to distribute subjects more evenly)
-    function optimizeTimetable() {
-        if (generatedTimetable.length === 0) {
-            showAlert('Please generate a timetable first', 'error');
-            return;
+
+        // Schedule a theory subject
+        function scheduleTheorySubject(timetable, subject, data) {
+            const periodsNeeded = subject.periods_per_week;
+            let scheduled = 0;
+            
+            // Try to distribute the subject across different days
+            const days = [...data.days];
+            shuffleArray(days); // Randomize day order for better distribution
+            
+            for (let day of days) {
+                // Try to schedule at most one period per day for better distribution
+                for (let period = 1; period <= data.periods_per_day; period++) {
+                    // Check if the slot is free
+                    if (timetable.schedule[day][period] === null) {
+                        // Check faculty availability
+                        if (!isFacultyBusy(timetable, subject.faculty, day, period)) {
+                            // Check if this subject was scheduled in the previous period (avoid back-to-back)
+                            const prevPeriod = timetable.schedule[day][period - 1];
+                            if (prevPeriod && prevPeriod.code === subject.code) {
+                                continue;
+                            }
+                            
+                            // Check if this subject would be scheduled in the next period
+                            const nextPeriod = timetable.schedule[day][period + 1];
+                            if (nextPeriod && nextPeriod.code === subject.code) {
+                                continue;
+                            }
+                            
+                            // Schedule the subject
+                            timetable.schedule[day][period] = {
+                                subject: subject.name,
+                                code: subject.code,
+                                faculty: subject.faculty,
+                                type: subject.type,
+                                isLab: false
+                            };
+                            
+                            scheduled++;
+                            
+                            if (scheduled >= periodsNeeded) {
+                                return;
+                            }
+                            
+                            // Move to next day after scheduling one period
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // If we still need to schedule more periods, try any available slot
+            if (scheduled < periodsNeeded) {
+                for (let day of data.days) {
+                    for (let period = 1; period <= data.periods_per_day; period++) {
+                        if (timetable.schedule[day][period] === null && 
+                            !isFacultyBusy(timetable, subject.faculty, day, period)) {
+                            
+                            // Check if this subject was scheduled in the previous period (avoid back-to-back)
+                            const prevSlot = timetable.schedule[day][period - 1];
+                            if (prevSlot && prevSlot.code === subject.code) {
+                                continue;
+                            }
+                            
+                            // Check if this subject would be scheduled in the next period
+                            const nextSlot = timetable.schedule[day][period + 1];
+                            if (nextSlot && nextSlot.code === subject.code) {
+                                continue;
+                            }
+                            
+                            timetable.schedule[day][period] = {
+                                subject: subject.name,
+                                code: subject.code,
+                                faculty: subject.faculty,
+                                type: subject.type,
+                                isLab: false
+                            };
+                            
+                            scheduled++;
+                            
+                            if (scheduled >= periodsNeeded) {
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
         }
-        
-        // Simple optimization - just regenerate
-        generateTimetable();
-        showAlert('Timetable optimized', 'info');
-    }
-    
-    // Clear only the timetable (keep subjects)
-    function clearTimetable() {
-        const cells = document.querySelectorAll('#timetable tbody td:not(.time-col)');
-        cells.forEach(cell => {
-            cell.innerHTML = '';
-        });
-    }
-    
-    // Clear everything (subjects and timetable)
-    function clearAll() {
-        if (subjects.length === 0 && document.querySelectorAll('.class-card').length === 0) {
-            showAlert('Nothing to clear', 'info');
-            return;
+
+        // Check if faculty is busy at a specific day and period
+        function isFacultyBusy(timetable, faculty, day, period) {
+            for (const d in timetable.schedule) {
+                for (const p in timetable.schedule[d]) {
+                    const slot = timetable.schedule[d][p];
+                    if (slot && slot.faculty === faculty && d === day && parseInt(p) === period) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
-        
-        const confirmation = confirm('Are you sure you want to clear all subjects and the timetable?');
-        if (confirmation) {
-            subjects.length = 0;
-            generatedTimetable = [];
-            updateSubjectList();
-            clearTimetable();
-            showAlert('All data cleared', 'info');
+
+        // Utility function to shuffle array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
         }
-    }
-    
-    // Print the timetable
-    function printTimetable() {
-        if (document.querySelectorAll('.class-card').length === 0) {
-            showAlert('No timetable to print', 'error');
-            return;
+
+        // Display timetable
+        function displayTimetable(timetable) {
+            // Clear previous timetable
+            const desktopTbody = document.querySelector('#timetable tbody');
+            const mobileContainer = document.querySelector('.timetable-mobile');
+            desktopTbody.innerHTML = '';
+            mobileContainer.innerHTML = '';
+            
+            // Create desktop timetable
+            timetable.days.forEach(day => {
+                const row = document.createElement('tr');
+                
+                // Day header
+                const dayHeader = document.createElement('td');
+                dayHeader.textContent = day;
+                dayHeader.style.fontWeight = '600';
+                dayHeader.style.background = 'linear-gradient(135deg, #3498db, #2c3e50)';
+                dayHeader.style.color = 'white';
+                dayHeader.style.width = '120px'; // Fixed width for day column
+                row.appendChild(dayHeader);
+                
+                let currentPeriod = 1;
+                while (currentPeriod <= timetable.periods) {
+                    if (currentPeriod === 5) {
+                        const lunchCell = document.createElement('td');
+                        lunchCell.className = 'lunch-break';
+                        lunchCell.innerHTML = '<div style="transform: rotate(-45deg);">LUNCH BREAK</div>';
+                        lunchCell.setAttribute('rowspan', timetable.days.length);
+                        if (timetable.days[0] === day) {
+                            row.appendChild(lunchCell);
+                        }
+                    }
+                    
+                    const cell = document.createElement('td');
+                    cell.className = 'timetable-cell';
+                    cell.setAttribute('data-day', day);
+                    cell.setAttribute('data-period', currentPeriod);
+                    cell.style.width = '150px'; // Fixed width for period columns
+                    cell.style.height = '100px'; // Fixed height for cells
+                    
+                    const slot = timetable.schedule[day][currentPeriod];
+                    
+                    if (slot) {
+                        if (slot.isLab && !slot.isStart) {
+                            currentPeriod++;
+                            continue;
+                        }
+                        
+                        cell.className += slot.isLab ? ' lab-cell' : ' theory-cell';
+                        
+                        // Create structured subject info container
+                        const subjectInfo = document.createElement('div');
+                        subjectInfo.className = 'subject-info';
+                        subjectInfo.style.padding = '10px';
+                        subjectInfo.style.height = '100%';
+                        subjectInfo.style.display = 'flex';
+                        subjectInfo.style.flexDirection = 'column';
+                        subjectInfo.style.justifyContent = 'space-between';
+                        
+                        subjectInfo.innerHTML = `
+                            <div class="subject-header">
+                                <div class="subject-name" style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">
+                                    ${slot.subject}
+                                </div>
+                                <div class="subject-code" style="font-size: 12px; color: #666;">
+                                    ${slot.code}
+                                </div>
+                            </div>
+                            <div class="faculty-name" style="font-size: 12px; color: #2980b9; margin-top: auto; padding-top: 8px; border-top: 1px solid #eee;">
+                                ${slot.faculty}
+                            </div>
+                        `;
+                        
+                        cell.appendChild(subjectInfo);
+                        
+                        if (slot.isLab && slot.labLength > 1) {
+                            cell.setAttribute('colspan', slot.labLength);
+                            currentPeriod += slot.labLength;
+                        } else {
+                            currentPeriod++;
+                        }
+                    } else {
+                        cell.className += ' empty';
+                        cell.innerHTML = '<div style="height: 100%; display: flex; align-items: center; justify-content: center; color: #999; font-style: italic;">Free</div>';
+                        currentPeriod++;
+                    }
+                    
+                    row.appendChild(cell);
+                }
+                
+                desktopTbody.appendChild(row);
+            });
+            
+            // Add these styles to improve table appearance
+            const style = document.createElement('style');
+            style.textContent = `
+                #timetable {
+                    table-layout: fixed;
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                }
+                
+                .timetable-cell {
+                    vertical-align: top;
+                    padding: 0;
+                    border: 1px solid #ddd;
+                    position: relative;
+                    transition: all 0.3s ease;
+                }
+                
+                .timetable-cell:hover {
+                    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                    z-index: 1;
+                }
+                
+                .lunch-break {
+                    background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+                    text-align: center;
+                    font-weight: bold;
+                    color: #d63031;
+                    width: 80px !important;
+                }
+                
+                .subject-info {
+                    border-radius: 4px;
+                    height: 100%;
+                }
+                
+                .lab-cell .subject-info {
+                    background: rgba(46, 204, 113, 0.1);
+                    border-left: 4px solid #27ae60;
+                }
+                
+                .theory-cell .subject-info {
+                    background: rgba(52, 152, 219, 0.1);
+                    border-left: 4px solid #3498db;
+                }
+                
+                .empty {
+                    background: #f8f9fa;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Create mobile view (keep existing mobile view code)
+            // ...existing mobile view code...
+            
+            // Set up drag and drop if in edit mode
+            if (isEditMode) {
+                setupDragAndDrop();
+            }
         }
-        window.print();
-    }
-    
-    // Show alert message
-    function showAlert(message, type) {
-        // In a real app, you might use a proper notification system
-        alert(`${type.toUpperCase()}: ${message}`);
-    }
-    
-    // Event listeners
-    document.getElementById('add-subject-btn').addEventListener('click', addSubject);
-    document.getElementById('generate-btn').addEventListener('click', generateTimetable);
-    document.getElementById('optimize-btn').addEventListener('click', optimizeTimetable);
-    document.getElementById('clear-btn').addEventListener('click', clearAll);
-    document.getElementById('print-btn').addEventListener('click', printTimetable);
-    
-    // Initialize the timetable
-    initializeTimetable();
-    
-    // Load sample data for demonstration
-    function loadSampleData() {
-        const sampleSubjects = [
-            { id: 1, name: 'Mathematics', teacher: 'Dr. Smith', type: 'regular', frequency: 5 },
-            { id: 2, name: 'Physics', teacher: 'Prof. Johnson', type: 'regular', frequency: 4 },
-            { id: 3, name: 'Chemistry Lab', teacher: 'Dr. Williams', type: 'lab', frequency: 1 },
-            { id: 4, name: 'Biology Lab', teacher: 'Prof. Brown', type: 'lab', frequency: 1 },
-            { id: 5, name: 'Computer Science', teacher: 'Dr. Davis', type: 'regular', frequency: 3 },
-            { id: 6, name: 'Programming Lab', teacher: 'Dr. Davis', type: 'lab', frequency: 1 },
-            { id: 7, name: 'English', teacher: 'Prof. Miller', type: 'regular', frequency: 4 },
-            { id: 8, name: 'History', teacher: 'Dr. Wilson', type: 'regular', frequency: 2 },
-            { id: 9, name: 'Physical Education', teacher: 'Coach Taylor', type: 'regular', frequency: 2 }
-        ];
-        
-        sampleSubjects.forEach(subject => {
-            subjects.push(subject);
-        });
-        
-        updateSubjectList();
-    }
-    
-    // Uncomment to load sample data on page load
-    // loadSampleData();
-});
+
+        // Toggle edit mode
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            
+            if (isEditMode) {
+                editToggleBtn.innerHTML = '<i class="fas fa-times"></i> Disable Editing';
+                editToggleBtn.classList.remove('btn-accent');
+                editToggleBtn.classList.add('btn-warning');
+                setupDragAndDrop();
+                showMessage(timetableSuccess, "Edit mode enabled. You can now drag and drop subjects.");
+            } else {
+                editToggleBtn.innerHTML = '<i class="fas fa-edit"></i> Enable Editing';
+                editToggleBtn.classList.remove('btn-warning');
+                editToggleBtn.classList.add('btn-accent');
+                removeDragAndDrop();
+                showMessage(timetableSuccess, "Edit mode disabled.");
+            }
+        }
+
+        // Set up drag and drop functionality
+        function setupDragAndDrop() {
+            const cells = document.querySelectorAll('.timetable-cell, .mobile-period');
+            
+            cells.forEach(cell => {
+                cell.setAttribute('draggable', 'true');
+                
+                cell.addEventListener('dragstart', handleDragStart);
+                cell.addEventListener('dragover', handleDragOver);
+                cell.addEventListener('dragenter', handleDragEnter);
+                cell.addEventListener('dragleave', handleDragLeave);
+                cell.addEventListener('drop', handleDrop);
+                cell.addEventListener('dragend', handleDragEnd);
+            });
+        }
+
+        // Remove drag and drop functionality
+        function removeDragAndDrop() {
+            const cells = document.querySelectorAll('.timetable-cell, .mobile-period');
+            
+            cells.forEach(cell => {
+                cell.removeAttribute('draggable');
+                
+                cell.removeEventListener('dragstart', handleDragStart);
+                cell.removeEventListener('dragover', handleDragOver);
+                cell.removeEventListener('dragenter', handleDragEnter);
+                cell.removeEventListener('dragleave', handleDragLeave);
+                cell.removeEventListener('drop', handleDrop);
+                cell.removeEventListener('dragend', handleDragEnd);
+                
+                cell.classList.remove('drop-zone');
+            });
+        }
+
+        // Drag and drop event handlers
+        function handleDragStart(e) {
+            if (!isEditMode) {
+                e.preventDefault();
+                return;
+            }
+            
+            this.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', JSON.stringify({
+                day: this.getAttribute('data-day'),
+                period: parseInt(this.getAttribute('data-period'))
+            }));
+        }
+
+        function handleDragOver(e) {
+            if (!isEditMode) return;
+            
+            e.preventDefault();
+        }
+
+        function handleDragEnter(e) {
+            if (!isEditMode) return;
+            
+            this.classList.add('drop-zone');
+        }
+
+        function handleDragLeave(e) {
+            if (!isEditMode) return;
+            
+            this.classList.remove('drop-zone');
+        }
+
+        function handleDrop(e) {
+            if (!isEditMode) return;
+            
+            e.preventDefault();
+            this.classList.remove('drop-zone');
+            
+            const sourceData = JSON.parse(e.dataTransfer.getData('text/plain'));
+            const targetDay = this.getAttribute('data-day');
+            const targetPeriod = parseInt(this.getAttribute('data-period'));
+            
+            // Perform the swap
+            swapSlots(sourceData.day, sourceData.period, targetDay, targetPeriod);
+        }
+
+        function handleDragEnd(e) {
+            if (!isEditMode) return;
+            
+            this.classList.remove('dragging');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            dropZones.forEach(zone => zone.classList.remove('drop-zone'));
+        }
+
+        // Swap two slots in the timetable
+        function swapSlots(day1, period1, day2, period2) {
+            // Create a copy of the current timetable
+            const newTimetable = JSON.parse(JSON.stringify(timetableData));
+            
+            // Get the slots
+            const slot1 = newTimetable.schedule[day1][period1];
+            const slot2 = newTimetable.schedule[day2][period2];
+            
+            // Check if swap is valid
+            if (!validateSwap(newTimetable, day1, period1, day2, period2)) {
+                showMessage(timetableError, "Invalid swap: constraint violation detected");
+                return;
+            }
+            
+            // Perform the swap
+            newTimetable.schedule[day1][period1] = slot2;
+            newTimetable.schedule[day2][period2] = slot1;
+            
+            // Update the timetable
+            timetableData = newTimetable;
+            
+            // Add to history
+            addToHistory(timetableData);
+            
+            // Redisplay the timetable
+            displayTimetable(timetableData);
+            
+            showMessage(timetableSuccess, "Slots swapped successfully!");
+        }
+
+        // Validate a swap operation
+        function validateSwap(timetable, day1, period1, day2, period2) {
+            const slot1 = timetable.schedule[day1][period1];
+            const slot2 = timetable.schedule[day2][period2];
+            
+            // If both slots are empty, swap is always valid
+            if (!slot1 && !slot2) return true;
+            
+            // Check if we're moving a lab
+            if (slot1 && slot1.isLab) {
+                // For labs, we need to check if the target can accommodate the lab length
+                const labLength = slot1.labLength;
+                
+                // Check if all required periods are free or part of the same lab
+                for (let i = 0; i < labLength; i++) {
+                    const targetPeriod = period2 + i;
+                    const targetSlot = timetable.schedule[day2][targetPeriod];
+                    
+                    // If the target slot is not empty and not part of the same lab being moved
+                    if (targetSlot && targetSlot !== slot1) {
+                        return false;
+                    }
+                }
+                
+                // Check if lab spans across lunch break (periods 4-5)
+                if (period2 <= 4 && period2 + labLength - 1 >= 5) {
+                    return false;
+                }
+                
+                // Check faculty availability for the new position
+                for (let i = 0; i < labLength; i++) {
+                    const targetPeriod = period2 + i;
+                    if (isFacultyBusy(timetable, slot1.faculty, day2, targetPeriod) && 
+                        timetable.schedule[day2][targetPeriod] !== slot1) {
+                        return false;
+                    }
+                }
+            }
+            
+            // Similarly check for slot2 if it's a lab
+            if (slot2 && slot2.isLab) {
+                const labLength = slot2.labLength;
+                
+                for (let i = 0; i < labLength; i++) {
+                    const targetPeriod = period1 + i;
+                    const targetSlot = timetable.schedule[day1][targetPeriod];
+                    
+                    if (targetSlot && targetSlot !== slot2) {
+                        return false;
+                    }
+                }
+                
+                // Check if lab spans across lunch break (periods 4-5)
+                if (period1 <= 4 && period1 + labLength - 1 >= 5) {
+                    return false;
+                }
+                
+                for (let i = 0; i < labLength; i++) {
+                    const targetPeriod = period1 + i;
+                    if (isFacultyBusy(timetable, slot2.faculty, day1, targetPeriod) && 
+                        timetable.schedule[day1][targetPeriod] !== slot2) {
+                        return false;
+                    }
+                }
+            }
+            
+            // Check for back-to-back same subject
+            if (slot1 && slot1.type === 'theory') {
+                // Check adjacent periods in the new position
+                const prevSlot = timetable.schedule[day2][period2 - 1];
+                const nextSlot = timetable.schedule[day2][period2 + 1];
+                
+                if ((prevSlot && prevSlot.code === slot1.code) || 
+                    (nextSlot && nextSlot.code === slot1.code)) {
+                    return false;
+                }
+            }
+            
+            if (slot2 && slot2.type === 'theory') {
+                // Check adjacent periods in the new position
+                const prevSlot = timetable.schedule[day1][period1 - 1];
+                const nextSlot = timetable.schedule[day1][period1 + 1];
+                
+                if ((prevSlot && prevSlot.code === slot2.code) || 
+                    (nextSlot && nextSlot.code === slot2.code)) {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        // Add timetable state to history
+        function addToHistory(timetable) {
+            // Remove any future states if we're not at the end
+            if (currentHistoryIndex < editHistory.length - 1) {
+                editHistory = editHistory.slice(0, currentHistoryIndex + 1);
+            }
+            
+            // Add new state
+            editHistory.push(JSON.parse(JSON.stringify(timetable)));
+            currentHistoryIndex++;
+        }
+
+        // Undo the last edit
+        function undoEdit() {
+            if (currentHistoryIndex > 0) {
+                currentHistoryIndex--;
+                timetableData = JSON.parse(JSON.stringify(editHistory[currentHistoryIndex]));
+                displayTimetable(timetableData);
+                showMessage(timetableSuccess, "Undo successful!");
+            } else {
+                showMessage(timetableError, "No more actions to undo");
+            }
+        }
+
+        // Reset timetable to originally generated state
+        function resetTimetable() {
+            if (editHistory.length > 0) {
+                timetableData = JSON.parse(JSON.stringify(editHistory[0]));
+                currentHistoryIndex = 0;
+                editHistory = [JSON.parse(JSON.stringify(timetableData))];
+                displayTimetable(timetableData);
+                showMessage(timetableSuccess, "Timetable reset to original state!");
+            }
+        }
+
+        // Print timetable
+        function printTimetable() {
+            window.print();
+        }
+
+        // Export timetable to CSV
+        function exportToCSV() {
+            if (!timetableData) {
+                showMessage(timetableError, "No timetable to export");
+                return;
+            }
+            
+            let csv = 'Day,Period,Subject,Code,Faculty,Type\n';
+            
+            timetableData.days.forEach(day => {
+                for (let period = 1; period <= timetableData.periods; period++) {
+                    const slot = timetableData.schedule[day][period];
+                    
+                    if (slot && (!slot.isLab || slot.isStart)) {
+                        csv += `"${day}",${period},"${slot.subject}","${slot.code}","${slot.faculty}","${slot.type}"\n`;
+                    } else if (!slot) {
+                        csv += `"${day}",${period},,,,\n`;
+                    }
+                }
+            });
+            
+            // Create and download the CSV file
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `timetable_${timetableData.department}_${timetableData.year}_${timetableData.semester}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showMessage(timetableSuccess, "Timetable exported as CSV!");
+        }
+
+        // Show message
+        function showMessage(element, message) {
+            element.textContent = message;
+            element.style.display = 'block';
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+
+        // Password check for login
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password === 'admin-ai') {
+                localStorage.setItem('timetableLoggedIn', 'true');
+                showMainContent();
+            } else {
+                showMessage(document.getElementById('login-error'), 'Incorrect password');
+            }
+        }
+
+        function showMainContent() {
+            document.getElementById('login-container').style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('timetableLoggedIn');
+            document.getElementById('login-container').style.display = 'flex';
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('password').value = '';
+        }
     </script>
 </body>
 </html>
